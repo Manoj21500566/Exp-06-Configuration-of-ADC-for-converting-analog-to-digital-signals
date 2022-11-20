@@ -177,32 +177,64 @@ ADxDRy. E.g. AD0DR1 contains ADC result of channel 1 of ADC0.
 Figure -08 Circuit diagram of interfacing an POT with ADC input pin 
 
 ## Kiel - Program 
+~~~
+#include <lpc214x.h>
+#include <LPC213X.H>
+#include "LCD.h"
+#include "ADC.h"
+unsigned int val;
+void delay_ms(unsigned int count)
+{
+   unsigned int i=0,j=0;
+   for(j=0;j<count;j++)
+   {
+   	for(i=0;i<count;i++);
+   }
+}
+int main()
+{
+   IO1DIR = 0xffffffff;
+   IO0DIR = 0x00000000;
+   PINSEL0 = 0x0300;
+   VPBDIV = 0x02;
+   lcd_init();
+   show(" ADC Value:");
+   while(1)
+   {
+   	cmd(0x8b);
+   	//delay_ms(1000);
+   	val=adc(0,6);
+   	dat((val/1000)+48);
+   	dat(((val/100)%10)+48);
+   	dat(((val/10)%10)+48);
+   	dat((val%10)+48);
+   }
+}
+
+~~~
  
 ## Tabulations and graph 
-SL NO	% OF POT VALUE	ADC VALUE
-1		
-2		
-3		
-4		
-5		
-6		
-7		
-8		
-9		
-10		
+SL NO % OF POT VALUE ADC VALUE 1 2 3 4 5 6 7 8 9 10
 
- ![image](https://user-images.githubusercontent.com/36288975/198947184-dbccf4b1-10a1-4090-a670-93526ed6e597.png)
+
+![1](https://user-images.githubusercontent.com/94588708/202900567-cd98e12e-fc33-4677-bdce-f30246d0e8eb.png)
 
 
 
- 
 Figure -09 graph between % of pot(1Kohm) values and ADC 
 
+## Output screen shots :
 
-Result :
+![2](https://user-images.githubusercontent.com/94588708/202900598-bfe34c3e-c963-42f6-ab46-27d880ba44fc.png)
+
+![3](https://user-images.githubusercontent.com/94588708/202900605-2f582702-d700-4979-ab9c-bec6c1e06965.png)
+
+![4](https://user-images.githubusercontent.com/94588708/202900610-aac710ff-a397-4e6d-8894-7b7fc15f0721.png)
+
+
+### Result :
 Configuring an ADC and the input values are displayed on LCD screen 
 
-Output screen shots :
 
 
 
